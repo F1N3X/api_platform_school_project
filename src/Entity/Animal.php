@@ -8,6 +8,13 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Delete;
+
 use Symfony\Component\Serializer\Attribute\Groups;
 use ApiPlatform\Metadata\ApiResource;
 
@@ -16,10 +23,10 @@ use ApiPlatform\Metadata\ApiResource;
     denormalizationContext: ['groups' => ['write']],
     operations: [
         new GetCollection(),
-        new Post(security: "is_granted('ROLE_VETERINARIAN', 'ROLE_ASSISTANT')", securityMessage: 'you can not do this action'),
+        new Post(security: "is_granted('ROLE_VETERINARIAN') or is_granted('ROLE_ASSISTANT')", securityMessage: 'you can not do this action'),
         new Get(),
-        new Patch(security: "is_granted('ROLE_VETERINARIAN', 'ROLE_ASSISTANT')", securityMessage: 'you can not do this action'),
-        new Delete(security: "is_granted('ROLE_VETERINARIAN', 'ROLE_ASSISTANT')", securityMessage: 'you can not do this action'),
+        new Patch(security: "is_granted('ROLE_VETERINARIAN') or is_granted('ROLE_ASSISTANT')", securityMessage: 'you can not do this action'),
+        new Delete(security: "is_granted('ROLE_VETERINARIAN') or is_granted('ROLE_ASSISTANT')", securityMessage: 'you can not do this action'),
     ],
 )]
 #[ORM\Entity(repositoryClass: AnimalRepository::class)]
