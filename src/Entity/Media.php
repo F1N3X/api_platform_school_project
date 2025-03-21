@@ -20,6 +20,7 @@ use Symfony\Component\Serializer\Attribute\Groups;
  
 #[Vich\Uploadable]
 #[ApiResource(
+    forceEager: false,
     normalizationContext: ['groups' => ['read']],
     types: ['https://schema.org/MediaObject'],
     operations: [
