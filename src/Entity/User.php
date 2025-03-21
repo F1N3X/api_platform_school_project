@@ -20,6 +20,7 @@ use ApiPlatform\Metadata\Put;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Delete;
 use App\State\UserPasswordHasherProcessor;
+use Symfony\Component\Validator\Constraints\Length;
 
 #[ApiResource(
     normalizationContext: ['groups' => ['read']],
@@ -209,9 +210,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getConsultations(): Collection
     {
-        if ($this->consultations !== null) {
-            return $this->consultations;
-        }
+
+        return $this->consultations;
+
 
     }
 
@@ -242,9 +243,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getRdvs(): Collection
     {
-        if ($this->rdvs !== null) {
-            return $this->rdvs;
-        }
+
+        return $this->rdvs;
+
 
     }
 
