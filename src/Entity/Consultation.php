@@ -11,9 +11,20 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Groups;
 use ApiPlatform\Metadata\ApiResource;
 
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Delete;
+use App\State\UserPasswordHasherProcessor;
+
 #[ApiResource(    
     normalizationContext: ['groups' => ['read']],
-    denormalizationContext: ['groups' => ['write']]
+    denormalizationContext: ['groups' => ['write']],
+    operations: [
+        new Post(security: "is_granted('ROLE_ASSISTANT') or object == user", securityMessage: 'You are not allowed to create a consultation'),
+    ],
 )]
 #[ORM\Entity(repositoryClass: ConsultationRepository::class)]
 class Consultation
@@ -62,7 +73,7 @@ class Consultation
 
     public function __construct()
     {
-        $this->createDate = new \DateTime(
+        $this->createdDate = new \DateTime(
             datetime: 'now',
             timezone: new \DateTimeZone('Europe/Paris')
         );
@@ -153,12 +164,11 @@ class Consultation
 
     public function setStatut(string $statut): static
     {
-        if ($statut !== 'programmé' && $statut !== 'en cours' && $statut !== 'terminé') {
-            # code...
-        } else {
+        if ($statut === 'programmé' || $statut === 'en cours' || $statut === 'terminé') {
             $this->statut = $statut;
+        } else {
+            throw new \InvalidArgumentException("Invalid status value. Doit être 'programmé', 'en cours' ou 'terminé");
         }
-
 
         return $this;
     }
