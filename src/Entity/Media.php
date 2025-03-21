@@ -72,6 +72,10 @@ class Media
     #[Assert\NotNull(groups: ['write'])]
     public ?File $file = null;
 
+    #[ORM\OneToOne(mappedBy: 'photo', cascade: ['persist', 'remove'])]
+    private ?Animal $animal = null;
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -85,6 +89,28 @@ class Media
     public function setFilePath(string $filePath): static
     {
         $this->filePath = $filePath;
+
+        return $this;
+    }
+
+    public function getAnimal(): ?Animal
+    {
+        return $this->animal;
+    }
+
+    public function setAnimal(?Animal $animal): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($animal === null && $this->animal !== null) {
+            $this->animal->setPhoto(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($animal !== null && $animal->getPhoto() !== $this) {
+            $animal->setPhoto($this);
+        }
+
+        $this->animal = $animal;
 
         return $this;
     }
