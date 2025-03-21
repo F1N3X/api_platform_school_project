@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\TraitementRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -25,6 +27,17 @@ class Traitement
 
     #[ORM\Column]
     private ?\DateInterval $durée = null;
+
+    /**
+     * @var Collection<int, Consultation>
+     */
+    #[ORM\ManyToMany(targetEntity: Consultation::class, mappedBy: 'traitements')]
+    private Collection $consultations;
+
+    public function __construct()
+    {
+        $this->consultations = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -75,6 +88,33 @@ class Traitement
     public function setDurée(\DateInterval $durée): static
     {
         $this->durée = $durée;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Consultation>
+     */
+    public function getConsultations(): Collection
+    {
+        return $this->consultations;
+    }
+
+    public function addConsultation(Consultation $consultation): static
+    {
+        if (!$this->consultations->contains($consultation)) {
+            $this->consultations->add($consultation);
+            $consultation->addTraitement($this);
+        }
+
+        return $this;
+    }
+
+    public function removeConsultation(Consultation $consultation): static
+    {
+        if ($this->consultations->removeElement($consultation)) {
+            $consultation->removeTraitement($this);
+        }
 
         return $this;
     }
