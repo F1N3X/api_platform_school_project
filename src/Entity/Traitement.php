@@ -47,6 +47,7 @@ class Traitement
      * @var Collection<int, Consultation>
      */
     #[ORM\ManyToMany(targetEntity: Consultation::class, mappedBy: 'traitements')]
+    #[Groups('read')]
     private Collection $consultations;
 
     public function __construct()

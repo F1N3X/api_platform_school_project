@@ -37,13 +37,16 @@ class Consultation
 
     #[ORM\ManyToOne(inversedBy: 'consultations')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups('read', 'write')]
     private ?Animal $animal = null;
 
     #[ORM\ManyToOne(inversedBy: 'consultations')]
+    #[Groups('read', 'write')]
     private ?User $assistant = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups('read', 'write')]
     private ?User $veterinaire = null;
 
     #[ORM\Column(length: 255)]
@@ -54,10 +57,15 @@ class Consultation
      * @var Collection<int, Traitement>
      */
     #[ORM\ManyToMany(targetEntity: Traitement::class, inversedBy: 'consultations')]
+    #[Groups('read', 'write')]
     private Collection $traitements;
 
     public function __construct()
     {
+        $this->createDate = new \DateTime(
+            datetime: 'now',
+            timezone: new \DateTimeZone('Europe/Paris')
+        );
         $this->traitements = new ArrayCollection();
     }
 

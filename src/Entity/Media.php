@@ -73,6 +73,7 @@ class Media
     public ?File $file = null;
 
     #[ORM\OneToOne(mappedBy: 'photo', cascade: ['persist', 'remove'])]
+    #[Groups('read', 'write')]
     private ?Animal $animal = null;
 
 

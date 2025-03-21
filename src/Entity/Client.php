@@ -38,6 +38,7 @@ class Client
      * @var Collection<int, Animal>
      */
     #[ORM\OneToMany(targetEntity: Animal::class, mappedBy: 'proprietaire')]
+    #[Groups('read')]
     private Collection $animals;
 
     public function __construct()

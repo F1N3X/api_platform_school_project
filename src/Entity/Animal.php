@@ -35,10 +35,12 @@ class Animal
     private ?\DateTimeInterface $bithdate = null;
 
     #[ORM\OneToOne(inversedBy: 'animal', cascade: ['persist', 'remove'])]
+    #[Groups('read', 'write')]
     private ?Media $photo = null;
 
     #[ORM\ManyToOne(inversedBy: 'animals')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups('read', 'write')]
     private ?Client $proprietaire = null;
 
     /**
