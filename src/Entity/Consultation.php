@@ -23,12 +23,14 @@ use App\State\UserPasswordHasherProcessor;
     normalizationContext: ['groups' => ['read']],
     denormalizationContext: ['groups' => ['write']],
     operations: [
-        new Post(security: "is_granted('ROLE_ASSISTANT') or object == user", securityMessage: 'You are not allowed to create a consultation'),
+        new Post(security: "is_granted('ROLE_ASSISTANT') or is_granted('ROLE_VETERINARIAN') or object == user", securityMessage: 'You are not allowed to create a consultation'),
         // new Get(),
         // new GetCollection(),
         new Patch(
-            security: "(is_granted('ROLE_ASSISTANT') or object == user) and object.getStatut() != 'terminé'", 
-            securityMessage: 'You are not allowed to modify this consultation or it is already completed'
+            security: "is_granted('ROLE_ASSISTANT') or is_granted('ROLE_VETERINARIAN') or object == user",
+            securityMessage: 'You are not allowed to modify this consultation',
+            securityPostDenormalize: "object.getStatut() != 'terminé'",
+            securityPostDenormalizeMessage: 'This consultation is already completed and cannot be modified'
         ),
         // new Delete(security: "is_granted('ROLE_ASSISTANT')", securityMessage: 'Only assistants can delete consultations')
     ],
