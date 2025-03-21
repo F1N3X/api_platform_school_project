@@ -44,8 +44,7 @@ class Consultation
     #[Groups(['read', 'write'])]
     private ?User $assistant = null;
 
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(inversedBy: 'rdvs')]
     #[Groups(['read', 'write'])]
     private ?User $veterinaire = null;
 
@@ -62,7 +61,7 @@ class Consultation
 
     public function __construct()
     {
-        $this->createDate = new \DateTime(
+        $this->createdDate = new \DateTime(
             datetime: 'now',
             timezone: new \DateTimeZone('Europe/Paris')
         );

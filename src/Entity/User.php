@@ -21,7 +21,7 @@ use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Delete;
 use App\State\UserPasswordHasherProcessor;
 
-#[ApiResource(    
+#[ApiResource(
     normalizationContext: ['groups' => ['read']],
     denormalizationContext: ['groups' => ['write']],
     operations: [
@@ -76,7 +76,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups('read')]
     private Collection $consultations;
 
- 
+    /**
+     * @var Collection<int, Consultation>
+     */
+    #[ORM\OneToMany(targetEntity: Consultation::class, mappedBy: 'veterinaire')]
+    #[Groups('read')]
+    private Collection $rdvs;
+
+
     #[Groups('write')]
     private ?string $plainPassword = null;
 
@@ -84,18 +91,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->plainPassword;
     }
- 
+
     public function setPlainPassword(string $plainPassword): static
     {
         $this->plainPassword = $plainPassword;
- 
+
         return $this;
     }
-    
+
 
     public function __construct()
     {
         $this->consultations = new ArrayCollection();
+        $this->rdvs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -201,7 +209,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getConsultations(): Collection
     {
-        return $this->consultations;
+        if ($this->consultations !== null) {
+            return $this->consultations;
+        }
+
     }
 
     public function addConsultation(Consultation $consultation): static
@@ -223,6 +234,38 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             }
         }
 
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Consultation>
+     */
+    public function getRdvs(): Collection
+    {
+        if ($this->rdvs !== null) {
+            return $this->rdvs;
+        }
+
+    }
+
+    public function addRdv(Consultation $consultation): static
+    {
+        if (!$this->rdvs->contains($consultation)) {
+            $this->rdvs->add($consultation);
+            $consultation->setVeterinaire($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRdv(Consultation $consultation): static
+    {
+        if ($this->rdvs->removeElement($consultation)) {
+            // set the owning side to null (unless already changed)
+            if ($consultation->getVeterinaire() === $this) {
+                $consultation->setVeterinaire(null);
+            }
+        }
         return $this;
     }
 }
