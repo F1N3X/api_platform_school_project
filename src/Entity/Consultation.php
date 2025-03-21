@@ -24,6 +24,13 @@ use App\State\UserPasswordHasherProcessor;
     denormalizationContext: ['groups' => ['write']],
     operations: [
         new Post(security: "is_granted('ROLE_ASSISTANT') or object == user", securityMessage: 'You are not allowed to create a consultation'),
+        // new Get(),
+        // new GetCollection(),
+        new Patch(
+            security: "(is_granted('ROLE_ASSISTANT') or object == user) and object.getStatut() != 'terminé'", 
+            securityMessage: 'You are not allowed to modify this consultation or it is already completed'
+        ),
+        // new Delete(security: "is_granted('ROLE_ASSISTANT')", securityMessage: 'Only assistants can delete consultations')
     ],
 )]
 #[ORM\Entity(repositoryClass: ConsultationRepository::class)]
