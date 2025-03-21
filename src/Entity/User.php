@@ -20,7 +20,6 @@ use ApiPlatform\Metadata\Put;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Delete;
 use App\State\UserPasswordHasherProcessor;
-use Symfony\Component\Validator\Constraints\Length;
 
 #[ApiResource(
     normalizationContext: ['groups' => ['read']],
