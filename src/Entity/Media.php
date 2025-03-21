@@ -17,7 +17,7 @@ use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Delete;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Attribute\Groups;
- 
+
 #[Vich\Uploadable]
 #[ApiResource(
     forceEager: false,
@@ -67,13 +67,14 @@ class Media
     #[ApiProperty(types: ['https://schema.org/contentUrl'])]
     #[Groups(['read'])]
     public ?string $contentUrl = null;
- 
+
     #[Vich\UploadableField(mapping: 'media_object', fileNameProperty: 'filePath')]
     #[Assert\NotNull(groups: ['write'])]
     public ?File $file = null;
 
     #[ORM\OneToOne(mappedBy: 'photo', cascade: ['persist', 'remove'])]
-    #[Groups(['read', 'write'])]
+    #[Groups(['write'])]
+    // only in write and not read to prevent circular reference  bug
     private ?Animal $animal = null;
 
 
