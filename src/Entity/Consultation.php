@@ -24,15 +24,15 @@ use App\State\UserPasswordHasherProcessor;
     denormalizationContext: ['groups' => ['write']],
     operations: [
         new Post(security: "is_granted('ROLE_ASSISTANT') or is_granted('ROLE_VETERINARIAN') or object == user", securityMessage: 'You are not allowed to create a consultation'),
-        // new Get(),
-        // new GetCollection(),
+        new Get(security: "is_granted('ROLE_ASSISTANT') or is_granted('ROLE_VETERINARIAN') or object == user", securityMessage: 'You are not allowed to access this consultation'),
+        new GetCollection(security: "is_granted('ROLE_ASSISTANT') or is_granted('ROLE_VETERINARIAN') or object == user", securityMessage: 'You are not allowed to access this consultation'),
         new Patch(
             security: "is_granted('ROLE_ASSISTANT') or is_granted('ROLE_VETERINARIAN') or object == user",
             securityMessage: 'You are not allowed to modify this consultation',
-            securityPostDenormalize: "object.getStatut() != 'terminé'",
+            securityPostDenormalize: "object.getStatut() != 'terminé' or (object.getStatut() == 'terminé' and object.isPaid() == true)",
             securityPostDenormalizeMessage: 'This consultation is already completed and cannot be modified'
         ),
-        // new Delete(security: "is_granted('ROLE_ASSISTANT')", securityMessage: 'Only assistants can delete consultations')
+        new Delete(security: "is_granted('ROLE_ASSISTANT') or is_granted('ROLE_VETERINARIAN')", securityMessage: 'Only assistants or veterinarians can delete consultations')
     ],
 )]
 #[ORM\Entity(repositoryClass: ConsultationRepository::class)]
@@ -78,6 +78,10 @@ class Consultation
     #[ORM\ManyToMany(targetEntity: Traitement::class, inversedBy: 'consultations')]
     #[Groups(['read', 'write'])]
     private Collection $traitements;
+
+    #[ORM\Column]
+    #[Groups(['read', 'write'])]
+    private ?bool $isPaid = null;
 
     public function __construct()
     {
@@ -201,6 +205,18 @@ class Consultation
     public function removeTraitement(Traitement $traitement): static
     {
         $this->traitements->removeElement($traitement);
+
+        return $this;
+    }
+
+    public function isPaid(): ?bool
+    {
+        return $this->isPaid;
+    }
+
+    public function setIsPaid(bool $isPaid): static
+    {
+        $this->isPaid = $isPaid;
 
         return $this;
     }
