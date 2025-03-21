@@ -27,7 +27,7 @@ use App\State\UserPasswordHasherProcessor;
         new GetCollection(security: "is_granted('ROLE_DIRECTOR')", securityMessage: 'Only directors can do this action'),
         new Post(processor: UserPasswordHasherProcessor::class, security: "is_granted('ROLE_DIRECTOR')", securityMessage: 'Only directors can do this action'),
         new Get(security: "is_granted('ROLE_DIRECTOR')", securityMessage: 'Only directors can do this action'),
-        new Patch(processor: UserPasswordHasherProcessor::class, security: "is_granted('ROLE_DIRECTOR')", securityMessage: 'Only directors can do this action'),
+        new Patch(processor: UserPasswordHasherProcessor::class, security: "is_granted('ROLE_DIRECTOR')", securityMessage: 'you can not do this action'),
         new Delete(security: "is_granted('ROLE_DIRECTOR')", securityMessage: 'Only directors can do this action'),
     ],
 )]
