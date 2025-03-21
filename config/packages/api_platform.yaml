@@ -12,3 +12,7 @@ api_platform:
     error_formats:
         json: ['application/json']
         multipart: ['multipart/form-data']
+    eager_loading:
+        max_joins: 100
+        force_eager: false
+

@@ -32,6 +32,7 @@ class Animal
     private ?string $espece = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups(['read', 'write'])]
     private ?\DateTimeInterface $bithdate = null;
 
     #[ORM\OneToOne(inversedBy: 'animal', cascade: ['persist', 'remove'])]
