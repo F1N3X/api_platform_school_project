@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\Component\Serializer\Attribute\Groups;
 use ApiPlatform\Metadata\ApiResource;
 
 #[ApiResource(    
@@ -23,12 +24,15 @@ class Consultation
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups('read')]
     private ?\DateTimeInterface $createdDate = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups('read', 'write')]
     private ?\DateTimeInterface $date = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups('read', 'write')]
     private ?string $motif = null;
 
     #[ORM\ManyToOne(inversedBy: 'consultations')]
@@ -43,6 +47,7 @@ class Consultation
     private ?User $veterinaire = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups('read', 'write')]
     private ?string $statut = null;
 
     /**
@@ -140,7 +145,12 @@ class Consultation
 
     public function setStatut(string $statut): static
     {
-        $this->statut = $statut;
+        if ($statut !== 'programmé' && $statut !== 'en cours' && $statut !== 'terminé') {
+            # code...
+        } else {
+            $this->statut = $statut;
+        }
+
 
         return $this;
     }

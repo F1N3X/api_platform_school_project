@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\Component\Serializer\Attribute\Groups;
 use ApiPlatform\Metadata\ApiResource;
 
 #[ApiResource(    
@@ -23,9 +24,11 @@ class Animal
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups('read', 'write')]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups('read', 'write')]
     private ?string $espece = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
