@@ -25,7 +25,7 @@ use App\State\UserPasswordHasherProcessor;
     operations: [
         new Post(security: "is_granted('ROLE_ASSISTANT') or is_granted('ROLE_VETERINARIAN') or object == user", securityMessage: 'You are not allowed to create a consultation'),
         new Get(security: "is_granted('ROLE_ASSISTANT') or is_granted('ROLE_VETERINARIAN') or object == user", securityMessage: 'You are not allowed to access this consultation'),
-        new GetCollection(security: "is_granted('ROLE_ASSISTANT') or is_granted('ROLE_VETERINARIAN') or object == user", securityMessage: 'You are not allowed to access this consultation'),
+        new GetCollection(security: "is_granted('ROLE_ASSISTANT') or is_granted('ROLE_VETERINARIAN') or is_granted('ROLE_DIRECTOR') or object == user", securityMessage: 'You are not allowed to access this consultation'),
         new Patch(
             security: "is_granted('ROLE_ASSISTANT') or is_granted('ROLE_VETERINARIAN') or object == user",
             securityMessage: 'You are not allowed to modify this consultation',
