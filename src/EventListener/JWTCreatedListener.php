@@ -21,10 +21,10 @@ class JWTCreatedListener
         // Récupération du payload
         $payload = $event->getData();
         // Récupération de l'utilisateur concerné
-        $user = $this->userRepository->findOneByEmail($payload['username']);
+        $user = $this->userRepository->findOneByIdentifiant($payload['username']);
  
         // Ajout d'une clé 'firstname' au payload
-        $payload['firstname'] = $user->getFirstname();
+        $payload['firstname'] = $user->getPrenom();
  
         // Mise à jour du payload
         $event->setData($payload);
