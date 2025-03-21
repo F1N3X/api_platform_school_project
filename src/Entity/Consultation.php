@@ -28,36 +28,36 @@ class Consultation
     private ?\DateTimeInterface $createdDate = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Groups('read', 'write')]
+    #[Groups(['read', 'write'])]
     private ?\DateTimeInterface $date = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups('read', 'write')]
+    #[Groups(['read', 'write'])]
     private ?string $motif = null;
 
     #[ORM\ManyToOne(inversedBy: 'consultations')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups('read', 'write')]
+    #[Groups(['read', 'write'])]
     private ?Animal $animal = null;
 
     #[ORM\ManyToOne(inversedBy: 'consultations')]
-    #[Groups('read', 'write')]
+    #[Groups(['read', 'write'])]
     private ?User $assistant = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups('read', 'write')]
+    #[Groups(['read', 'write'])]
     private ?User $veterinaire = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups('read', 'write')]
+    #[Groups(['read', 'write'])]
     private ?string $statut = null;
 
     /**
      * @var Collection<int, Traitement>
      */
     #[ORM\ManyToMany(targetEntity: Traitement::class, inversedBy: 'consultations')]
-    #[Groups('read', 'write')]
+    #[Groups(['read', 'write'])]
     private Collection $traitements;
 
     public function __construct()

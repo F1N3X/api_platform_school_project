@@ -24,23 +24,23 @@ class Animal
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups('read', 'write')]
+    #[Groups(['read', 'write'])]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups('read', 'write')]
+    #[Groups(['read', 'write'])]
     private ?string $espece = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $bithdate = null;
 
     #[ORM\OneToOne(inversedBy: 'animal', cascade: ['persist', 'remove'])]
-    #[Groups('read', 'write')]
+    #[Groups(['read', 'write'])]
     private ?Media $photo = null;
 
     #[ORM\ManyToOne(inversedBy: 'animals')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups('read', 'write')]
+    #[Groups(['read', 'write'])]
     private ?Client $proprietaire = null;
 
     /**

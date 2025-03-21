@@ -25,22 +25,22 @@ class Traitement
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups('read', 'write')]
+    #[Groups(['read', 'write'])]
 
     private ?string $nom = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Groups('read', 'write')]
+    #[Groups(['read', 'write'])]
 
     private ?string $description = null;
 
     #[ORM\Column]
-    #[Groups('read', 'write')]
+    #[Groups(['read', 'write'])]
 
     private ?float $prix = null;
 
     #[ORM\Column]
-    #[Groups('read', 'write')]
+    #[Groups(['read', 'write'])]
     private ?\DateInterval $durée = null;
 
     /**
