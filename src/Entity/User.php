@@ -9,6 +9,12 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+use ApiPlatform\Metadata\ApiResource;
+
+#[ApiResource(    
+    normalizationContext: ['groups' => ['read']],
+    denormalizationContext: ['groups' => ['write']]
+)]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_IDENTIFIANT', fields: ['identifiant'])]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
