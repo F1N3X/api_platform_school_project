@@ -24,10 +24,12 @@ use Symfony\Component\Serializer\Attribute\Groups;
     normalizationContext: ['groups' => ['read']],
     types: ['https://schema.org/MediaObject'],
     operations: [
-        new Get(),
-        new GetCollection(),
-        new Delete(),
+        new Get(security: "is_granted('ROLE_VETERINARIAN') or is_granted('ROLE_ASSISTANT') is_granted('ROLE_DIRECTOR')", securityMessage: 'you can not do this action'),
+        new GetCollection(security: "is_granted('ROLE_VETERINARIAN') or is_granted('ROLE_ASSISTANT') is_granted('ROLE_DIRECTOR')", securityMessage: 'you can not do this action'),
+        new Delete(security: "is_granted('ROLE_VETERINARIAN') or is_granted('ROLE_ASSISTANT') is_granted('ROLE_DIRECTOR')", securityMessage: 'you can not do this action'),
         new Post(
+            security: "is_granted('ROLE_VETERINARIAN') or is_granted('ROLE_ASSISTANT') is_granted('ROLE_DIRECTOR')",
+            securityMessage: 'you can not do this action',
             controller: CreateMediaObjectAction::class,
             deserialize: false,
             validationContext: ['groups' => ['Default', 'write']],

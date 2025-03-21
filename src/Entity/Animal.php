@@ -22,11 +22,11 @@ use ApiPlatform\Metadata\ApiResource;
     normalizationContext: ['groups' => ['read']],
     denormalizationContext: ['groups' => ['write']],
     operations: [
-        new GetCollection(),
-        new Post(security: "is_granted('ROLE_VETERINARIAN') or is_granted('ROLE_ASSISTANT')", securityMessage: 'you can not do this action'),
-        new Get(),
-        new Patch(security: "is_granted('ROLE_VETERINARIAN') or is_granted('ROLE_ASSISTANT')", securityMessage: 'you can not do this action'),
-        new Delete(security: "is_granted('ROLE_VETERINARIAN') or is_granted('ROLE_ASSISTANT')", securityMessage: 'you can not do this action'),
+        new GetCollection(security: "is_granted('ROLE_VETERINARIAN') or is_granted('ROLE_ASSISTANT') is_granted('ROLE_DIRECTOR')", securityMessage: 'you can not do this action'),
+        new Post(security: "is_granted('ROLE_VETERINARIAN') or is_granted('ROLE_ASSISTANT') or is_granted('ROLE_DIRECTOR')", securityMessage: 'you can not do this action'),
+        new Get(security: "is_granted('ROLE_VETERINARIAN') or is_granted('ROLE_ASSISTANT') is_granted('ROLE_DIRECTOR')", securityMessage: 'you can not do this action'),
+        new Patch(security: "is_granted('ROLE_VETERINARIAN') or is_granted('ROLE_ASSISTANT') or is_granted('ROLE_DIRECTOR')", securityMessage: 'you can not do this action'),
+        new Delete(security: "is_granted('ROLE_VETERINARIAN') or is_granted('ROLE_ASSISTANT') or is_granted('ROLE_DIRECTOR')", securityMessage: 'you can not do this action'),
     ],
 )]
 #[ORM\Entity(repositoryClass: AnimalRepository::class)]
