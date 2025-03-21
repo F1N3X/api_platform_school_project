@@ -11,9 +11,27 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 use ApiPlatform\Metadata\ApiResource;
 
+use Symfony\Component\Serializer\Attribute\Groups;
+
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Delete;
+use App\State\UserPasswordHasherProcessor;
+
 #[ApiResource(    
     normalizationContext: ['groups' => ['read']],
-    denormalizationContext: ['groups' => ['write']]
+    denormalizationContext: ['groups' => ['write']],
+    operations: [
+        new GetCollection(),
+        new Post(processor: UserPasswordHasherProcessor::class),
+        new Get(),
+        new Put(processor: UserPasswordHasherProcessor::class),
+        new Patch(processor: UserPasswordHasherProcessor::class),
+        new Delete(),
+    ],
 )]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_IDENTIFIANT', fields: ['identifiant'])]
@@ -25,24 +43,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180)]
+    #[Groups(['read', 'write'])]
     private ?string $identifiant = null;
 
     /**
      * @var list<string> The user roles
      */
     #[ORM\Column]
+    #[Groups(['read', 'write'])]
     private array $roles = [];
 
     /**
      * @var string The hashed password
      */
     #[ORM\Column]
+    #[Groups('read')]
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['read', 'write'])]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['read', 'write'])]
     private ?string $prenom = null;
 
     /**
@@ -50,6 +73,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\OneToMany(targetEntity: Consultation::class, mappedBy: 'assistant')]
     private Collection $consultations;
+
+ 
+    #[Groups('write')]
+    private ?string $plainPassword = null;
+
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+ 
+    public function setPlainPassword(string $plainPassword): static
+    {
+        $this->plainPassword = $plainPassword;
+ 
+        return $this;
+    }
+    
 
     public function __construct()
     {
@@ -127,7 +167,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
+        $this->plainPassword = null;
     }
 
     public function getNom(): ?string
