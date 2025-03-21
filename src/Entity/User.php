@@ -16,7 +16,6 @@ use Symfony\Component\Serializer\Attribute\Groups;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Put;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Delete;
 use App\State\UserPasswordHasherProcessor;
@@ -25,12 +24,11 @@ use App\State\UserPasswordHasherProcessor;
     normalizationContext: ['groups' => ['read']],
     denormalizationContext: ['groups' => ['write']],
     operations: [
-        new GetCollection(),
-        new Post(processor: UserPasswordHasherProcessor::class),
-        new Get(),
-        new Put(processor: UserPasswordHasherProcessor::class),
-        new Patch(processor: UserPasswordHasherProcessor::class),
-        new Delete(),
+        new GetCollection(security: "is_granted('ROLE_DIRECTOR')", securityMessage: 'Only directors can do this action'),
+        new Post(processor: UserPasswordHasherProcessor::class, security: "is_granted('ROLE_DIRECTOR')", securityMessage: 'Only directors can do this action'),
+        new Get(security: "is_granted('ROLE_DIRECTOR')", securityMessage: 'Only directors can do this action'),
+        new Patch(processor: UserPasswordHasherProcessor::class, security: "is_granted('ROLE_DIRECTOR')", securityMessage: 'Only directors can do this action'),
+        new Delete(security: "is_granted('ROLE_DIRECTOR')", securityMessage: 'Only directors can do this action'),
     ],
 )]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
