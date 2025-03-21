@@ -13,7 +13,14 @@ use ApiPlatform\Metadata\ApiResource;
 
 #[ApiResource(    
     normalizationContext: ['groups' => ['read']],
-    denormalizationContext: ['groups' => ['write']]
+    denormalizationContext: ['groups' => ['write']],
+    operations: [
+        new GetCollection(),
+        new Post(security: "is_granted('ROLE_VETERINARIAN', 'ROLE_ASSISTANT')", securityMessage: 'you can not do this action'),
+        new Get(),
+        new Patch(security: "is_granted('ROLE_VETERINARIAN', 'ROLE_ASSISTANT')", securityMessage: 'you can not do this action'),
+        new Delete(security: "is_granted('ROLE_VETERINARIAN', 'ROLE_ASSISTANT')", securityMessage: 'you can not do this action'),
+    ],
 )]
 #[ORM\Entity(repositoryClass: AnimalRepository::class)]
 class Animal
