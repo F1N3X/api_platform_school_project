@@ -19,17 +19,20 @@ class ConsultationRepository extends ServiceEntityRepository
 //    /**
 //     * @return Consultation[] Returns an array of Consultation objects
 //     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('c.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function findByExampleField(): array
+    {
+        $today = new \DateTime('today');
+        $tomorrow = new \DateTime('tomorrow');
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.date >= :today')
+            ->andWhere('c.date < :tommorow')
+            ->setParameter('today', $today->format('Y-m-d 00:00:00'))
+            ->setParameter('tomorrow', $tomorrow->format('Y-m-d 00:00:00'))
+            ->orderBy('c.date', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
 //    public function findOneBySomeField($value): ?Consultation
 //    {
