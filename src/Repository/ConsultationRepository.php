@@ -19,13 +19,13 @@ class ConsultationRepository extends ServiceEntityRepository
 //    /**
 //     * @return Consultation[] Returns an array of Consultation objects
 //     */
-    public function findByExampleField(): array
+    public function findConsultationsToday(): array
     {
         $today = new \DateTime('today');
         $tomorrow = new \DateTime('tomorrow');
         return $this->createQueryBuilder('c')
             ->andWhere('c.date >= :today')
-            ->andWhere('c.date < :tommorow')
+            ->andWhere('c.date < :tomorrow')
             ->setParameter('today', $today->format('Y-m-d 00:00:00'))
             ->setParameter('tomorrow', $tomorrow->format('Y-m-d 00:00:00'))
             ->orderBy('c.date', 'ASC')

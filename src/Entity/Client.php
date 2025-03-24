@@ -31,6 +31,7 @@ use ApiPlatform\Metadata\ApiResource;
 #[ORM\Entity(repositoryClass: ClientRepository::class)]
 class Client
 {
+    
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]

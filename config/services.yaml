@@ -6,7 +6,7 @@
 parameters:
 
 services:
-    App\State\ConsultationsTodayProvider:
+    App\State\ConsultationTodayProvider:
         arguments:
             $repository: '@App\Repository\ConsultationRepository'
     _defaults:

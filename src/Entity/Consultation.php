@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 use Symfony\Component\Serializer\Attribute\Groups;
 use ApiPlatform\Metadata\ApiResource;
+use App\State\ConsultationTodayProvider;
 
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Get;
@@ -27,9 +28,9 @@ use App\State\UserPasswordHasherProcessor;
         new Get(security: "is_granted('ROLE_ASSISTANT') or is_granted('ROLE_VETERINARIAN') or object == user", securityMessage: 'You are not allowed to access this consultation'),
         new GetCollection(security: "is_granted('ROLE_ASSISTANT') or is_granted('ROLE_VETERINARIAN') or is_granted('ROLE_DIRECTOR') or object == user", securityMessage: 'You are not allowed to access this consultation'),
         new GetCollection(
-            uriTemplate: '/consultations/today',
-            security: "is_granted('ROLE_ASSISTANT') or is_granted('ROLE_VETERINARIAN') or is_granted('ROLE_DIRECTOR')",
-            provider: ConsultationsTodayProvider::class
+            uriTemplate: '/rdv/today',
+            // security: "is_granted('ROLE_ASSISTANT') or is_granted('ROLE_VETERINARIAN') or is_granted('ROLE_DIRECTOR')",
+            provider: ConsultationTodayProvider::class
         ),new Patch(
             security: "is_granted('ROLE_ASSISTANT') or is_granted('ROLE_VETERINARIAN') or object == user",
             securityMessage: 'You are not allowed to modify this consultation',
