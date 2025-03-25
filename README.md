@@ -253,3 +253,8 @@ The API provides the following endpoints:
     - Set Content-Type header to `application/merge-patch+json`
     - Requires ROLE_ASSISTANT or ROLE_VETERINARIAN
     - Status can be "programmé", "en cours", "terminé"
+
+### RDV
+- `GET /api/rdv/today`:
+    - Returns all RDVs for today
+    - Requires ROLE_DIRECTOR or ROLE_VETERINARIAN or ROLE_ASSISTANT
