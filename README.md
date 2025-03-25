@@ -103,3 +103,20 @@ The API provides the following endpoints:
         }
         ```
     - Requires ROLE_DIRECTOR or ROLE_VETERINARIAN or ROLE_ASSISTANT
+
+
+### Medias
+- `GET /api/media`:
+    - Returns all media files
+    - Requires ROLE_DIRECTOR or ROLE_VETERINARIAN or ROLE_ASSISTANT
+
+- `POST /api/media`:
+    - Creates a new media file
+    - Returns the created media resource with status code 201
+    - Example request body:
+        ```form-data
+        {
+            "file": "file"
+        }
+        ```
+    - Requires ROLE_DIRECTOR or ROLE_VETERINARIAN or ROLE_ASSISTANT
