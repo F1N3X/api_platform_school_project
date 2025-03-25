@@ -29,7 +29,7 @@ use App\State\UserPasswordHasherProcessor;
         new GetCollection(security: "is_granted('ROLE_ASSISTANT') or is_granted('ROLE_VETERINARIAN') or is_granted('ROLE_DIRECTOR') or object == user", securityMessage: 'You are not allowed to access this consultation'),
         new GetCollection(
             uriTemplate: '/rdv/today',
-            // security: "is_granted('ROLE_ASSISTANT') or is_granted('ROLE_VETERINARIAN') or is_granted('ROLE_DIRECTOR')",
+            security: "is_granted('ROLE_ASSISTANT') or is_granted('ROLE_VETERINARIAN') or is_granted('ROLE_DIRECTOR')",
             provider: ConsultationTodayProvider::class
         ),new Patch(
             security: "is_granted('ROLE_ASSISTANT') or is_granted('ROLE_VETERINARIAN') or object == user",
