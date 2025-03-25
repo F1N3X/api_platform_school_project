@@ -84,3 +84,22 @@ The API provides the following endpoints:
     - Requires user ID
     - requires ROLE_DIRECTOR
     - Returns status code 204 (No Content) on success
+
+
+### Clients
+- `GET /api/clients`:
+    - Returns all clients
+    - Requires ROLE_DIRECTOR or ROLE_VETERINARIAN or ROLE_ASSISTANT
+
+- `POST /api/clients`:
+    - Creates a new client
+    - Returns the created client resource with status code 201
+    - Example request body:
+        ```json
+        {
+            "nom": "string",
+            "prenom": "string",
+            "email": "string"
+        }
+        ```
+    - Requires ROLE_DIRECTOR or ROLE_VETERINARIAN or ROLE_ASSISTANT
