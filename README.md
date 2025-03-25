@@ -17,6 +17,16 @@ This project is a veterinary clinic management API built with Symfony and API Pl
 5. Run migrations with `php bin/console doctrine:migrations:migrate`
 6. Load fixtures with `php bin/console doctrine:fixtures:load`
 7. Start the server with `symfony server:start`
+8. Remove the User POST role restriction in the `src/Entity/User.php` file
+9. Insert the first user with the `ROLE_DIRECTOR` role
+10. Add the restriction back
+
+```php
+    /**
+     * @ORM\Column(type="json")
+     */
+    private $roles = [];
+```
 
 
 ## Usage
