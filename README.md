@@ -120,3 +120,28 @@ The API provides the following endpoints:
         }
         ```
     - Requires ROLE_DIRECTOR or ROLE_VETERINARIAN or ROLE_ASSISTANT
+
+
+### Animals
+- `GET /api/animals`:
+    - Returns all animals
+    - Requires ROLE_DIRECTOR or ROLE_VETERINARIAN or ROLE_ASSISTANT
+
+- `GET /api/animals/{id}`:
+    - Returns a single animal
+    - Requires ROLE_DIRECTOR or ROLE_VETERINARIAN or ROLE_ASSISTANT
+
+- `POST /api/animals`:
+    - Creates a new animal
+    - Returns the created animal resource with status code 201
+    - Example request body:
+        ```json
+        {
+            "nom": "string",
+            "espece": "string",
+            "bithdate": "2000-12-01T00:00:00.000Z",
+            "photo": "/api/medias/{id}",
+            "proprietaire": "/api/clients/{id}"
+        }
+        ```
+    - Requires ROLE_DIRECTOR or ROLE_VETERINARIAN or ROLE_ASSISTANT
