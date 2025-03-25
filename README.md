@@ -11,11 +11,12 @@ This project is a veterinary clinic management API built with Symfony and API Pl
 ## Installation
 
 1. Clone the repository
-2. Install dependencies with `composer install`
-3. Create the database with `php bin/console doctrine:database:create`
-4. Run migrations with `php bin/console doctrine:migrations:migrate`
-5. Load fixtures with `php bin/console doctrine:fixtures:load`
-6. Start the server with `symfony server:start`
+2. copy the `.env` file to `.env.local` and set the `DATABASE_URL` variable to your database configuration
+3. Install dependencies with `composer install`
+4. Create the database with `php bin/console doctrine:database:create`
+5. Run migrations with `php bin/console doctrine:migrations:migrate`
+6. Load fixtures with `php bin/console doctrine:fixtures:load`
+7. Start the server with `symfony server:start`
 
 
 ## Usage
