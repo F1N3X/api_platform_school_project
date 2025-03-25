@@ -74,7 +74,7 @@ The API provides the following endpoints:
             "plainPassword": "string"
         }
         ```
-    - Supports JSON Merge Patch format
+    - Set Content-Type header to `application/merge-patch+json`
     - Requires user ID
     - requires ROLE_DIRECTOR
     - prevent user to change other user's password
@@ -145,3 +145,47 @@ The API provides the following endpoints:
         }
         ```
     - Requires ROLE_DIRECTOR or ROLE_VETERINARIAN or ROLE_ASSISTANT
+
+
+### Traitements
+- `GET /api/traitements`:
+    - Returns all treatments
+    - Requires ROLE_VETERINARIAN
+
+- `GET /api/traitements/{id}`:
+    - Returns a single treatment
+    - Requires ROLE_VETERINARIAN
+
+- `POST /api/traitements`:
+    - Creates a new treatment
+    - Returns the created treatment resource with status code 201
+    - Example request body:
+        ```json
+        {
+            "nom": "string",
+            "description": "string",
+            "prix": float,
+            "durée": "P3M14D"
+        }
+        ```
+    - Requires ROLE_VETERINARIAN
+
+- `PATCH /api/traitements/{id}`:
+    - Updates an existing treatment
+    - Returns the updated treatment resource
+    - Example request body:
+        ```json
+        {
+            "nom": "string",
+            "description": "string",
+            "prix": float,
+            "durée": "P3M14D"
+        }
+        ```
+    - Set Content-Type header to `application/merge-patch+json`
+    - Requires ROLE_VETERINARIAN
+
+- `DELETE /api/traitements/{id}`:
+    - Deletes a treatment
+    - Returns status code 204 (No Content) on success
+    - Requires ROLE_VETERINARIAN
