@@ -189,3 +189,56 @@ The API provides the following endpoints:
     - Deletes a treatment
     - Returns status code 204 (No Content) on success
     - Requires ROLE_VETERINARIAN
+
+
+### Consultations
+- `GET /api/consultations`:
+    - Returns all consultations
+    - Requires ROLE_DIRECTOR or ROLE_VETERINARIAN or ROLE_ASSISTANT
+
+- `GET /api/consultations/{id}`:
+    - Returns a single consultation
+    - Requires ROLE_VETERINARIAN or ROLE_ASSISTANT
+
+- `POST /api/consultations`:
+    - Creates a new consultation
+    - Returns the created consultation resource with status code 201
+    - Example request body:
+        ```json
+        {
+            "date": "2000-12-01T00:00:00.000Z",
+            "motif": "string",
+            "animal": "/api/animals/{id}",
+            "assistant": "api/users/{id}",
+            "veterinaire": "api/users/{id}",
+            "statut": "programmé",
+            "traitements": [
+                "/api/traitements/{id}"
+            ],
+            "isPaid" : bool
+        }
+        ```
+    - Requires ROLE_ASSISTANT or ROLE_VETERINARIAN
+    - Status can be "programmé", "en cours", "terminé"
+
+- `PATCH /api/consultations/{id}`:
+    - Updates an existing consultation
+    - Returns the updated consultation resource
+    - Example request body:
+        ```json
+        {
+            "date": "2000-12-01T00:00:00.000Z",
+            "motif": "string",
+            "animal": "/api/animals/{id}",
+            "assistant": "api/users/{id}",
+            "veterinaire": "api/users/{id}",
+            "statut": "programmé",
+            "traitements": [
+                "/api/traitements/{id}"
+            ],
+            "isPaid" : bool
+        }
+        ```
+    - Set Content-Type header to `application/merge-patch+json`
+    - Requires ROLE_ASSISTANT or ROLE_VETERINARIAN
+    - Status can be "programmé", "en cours", "terminé"
